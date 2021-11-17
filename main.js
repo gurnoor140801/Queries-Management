@@ -11,10 +11,12 @@ let idx = 3;
 let ticketId = 1;
 let addFlag = false;
 let removeFlag = false;
-let allTicketObj = JSON.parse(localStorage.getItem("all-tickets"));
+let allTicketObj = if(JSON.parse(localStorage.getItem("all-tickets"))){
+    appendTickets(allTicketObj);
+    ticketId = allTicketObj.length+1;
+};
 // let allTicketObj = []
-appendTickets(allTicketObj);
-ticketId = allTicketObj.length+1;
+
 
 for(let i =0;i<allPriorityColour.length;i++){
     allPriorityColour[i].addEventListener("click", function(){
