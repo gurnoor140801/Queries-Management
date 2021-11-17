@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+/* html{
+    font-family: 'Dongle', sans-serif;
+} */
+
 body{
     margin: 0px;
     font-family: 'Dongle', sans-serif;
@@ -166,7 +170,12 @@ body{
     background-color: #EDEDED;
     padding: 7px;
     font-size: 2rem;
+    /* white-space: initial; */
     color: black;
+    outline: none;
+    /* overflow: scroll; */
+    word-wrap: break-word;
+    overflow-y: scroll;
 }
 
 .main-container{
