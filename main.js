@@ -11,7 +11,9 @@ let idx = 3;
 let ticketId = 1;
 let addFlag = false;
 let removeFlag = false;
-let allTicketObj = if(JSON.parse(localStorage.getItem("all-tickets"))){
+let allTicketObj = [];
+if(localStorage.getItem("all-tickets")){
+    allTicketObj = JSON.parse(localStorage.getItem("all-tickets"))
     appendTickets(allTicketObj);
     ticketId = allTicketObj.length+1;
 };
