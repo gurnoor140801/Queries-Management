@@ -11,14 +11,19 @@ let idx = 3;
 let ticketId = 1;
 let addFlag = false;
 let removeFlag = false;
-let allTicketObj = [];
+let allTicketObj = JSON.parse(localStorage.getItem("all-tickets"));
+// let allTicketObj = []
+appendTickets(allTicketObj);
+ticketId = allTicketObj.length+1;
 
 for(let i =0;i<allPriorityColour.length;i++){
     allPriorityColour[i].addEventListener("click", function(){
         if(allPriorityColour[i].classList.contains("border")){
             allPriorityColour[i].classList.remove("border")
             updateObject();
-            mainContainer.innerHTML = "";
+            localStorage.setItem("all-tickets",JSON.stringify(allTicketObj));
+            let r = document.querySelectorAll(".ticket-container");
+            for(let i = 0;i<r.length;i++)r[i].remove();
             appendTickets(allTicketObj)
         }else{
             allPriorityColour.forEach(function(oneEle){
@@ -27,7 +32,10 @@ for(let i =0;i<allPriorityColour.length;i++){
             })
             allPriorityColour[i].classList.add("border")
             updateObject();
-            mainContainer.innerHTML = "";
+            localStorage.setItem("all-tickets",JSON.stringify(allTicketObj));
+            // mainContainer.innerHTML = "";
+            let r = document.querySelectorAll(".ticket-container");
+            for(let i = 0;i<r.length;i++)r[i].remove();
             let selectedObj = allTicketObj.filter(function(obj){
                 return obj.ticketColour === allPriorityColour[i].classList[0]
             })
@@ -42,6 +50,7 @@ addBtn.addEventListener("click", function(e){
         if(addFlag){
             modalCont.style.display = "flex"
         }else{
+            console.log(addFlag);
             modalCont.style.display = "none"
         }
 })
@@ -70,9 +79,12 @@ function createTicket(value){
     mainContainer.appendChild(newEle);
     
     newEle.addEventListener("click", function(e){
-        if(removeFlag) newEle.remove();
-        allTicketObj = allTicketObj.filter(function(obj){return obj.id != ticketId})
-    })
+        if(removeFlag) {newEle.remove();
+            let removeId = newEle.querySelector(".ticket-id").innerHTML;
+          allTicketObj = allTicketObj.filter(function(obj){ console.log(obj.ticketId, ticketId); return '#'+obj.ticketId != removeId})
+          localStorage.setItem("all-tickets",JSON.stringify(allTicketObj));
+       }})
+
     newEle.querySelector(".lock-btn>*").addEventListener("click",function(e){
         if(newEle.querySelector(".lock-btn>*").classList.contains("fa-lock")){
             newEle.querySelector(".lock-btn>*").classList.remove("fa-lock");
@@ -91,6 +103,7 @@ function createTicket(value){
         ticketValue:value
     })
     ticketId++;
+    localStorage.setItem("all-tickets",JSON.stringify(allTicketObj));
 } 
 
 allColourDiv.forEach(function(ele, i){
@@ -121,7 +134,6 @@ function handleTicketColour(ticket){
     // }, 100);
 }
 
-
 function appendTickets(arr){
     for(let i = 0;i< arr.length;i++){
         let selectedColour = arr[i].ticketColour;
@@ -136,9 +148,10 @@ function appendTickets(arr){
      mainContainer.appendChild(newEle);
     //  ticketId++;
      newEle.addEventListener("click", function(e){
-         if(removeFlag) newEle.remove();
-         allTicketObj = allTicketObj.filter(function(obj){return obj.id != ticketId})
-     })
+         if(removeFlag) {newEle.remove();
+           allTicketObj = allTicketObj.filter(function(obj){ console.log(obj.ticketId, '#' + selectedticketId); return obj.ticketId != selectedticketId})
+           localStorage.setItem("all-tickets",JSON.stringify(allTicketObj));
+        }})
      newEle.querySelector(".lock-btn>*").addEventListener("click",function(e){
          if(newEle.querySelector(".lock-btn>*").classList.contains("fa-lock")){
              newEle.querySelector(".lock-btn>*").classList.remove("fa-lock");
